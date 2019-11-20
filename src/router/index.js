@@ -8,7 +8,7 @@ Vue.use(Router)
 export default new Router({
     mode: "history",
     routes: [{
-            path: '/',
+            path: '/footer_index',
             name: 'footer_index',
             component: footer_index
         },
@@ -18,7 +18,7 @@ export default new Router({
             component: hearder_index
         },
         {
-            path: '/detail',
+            path: '/',
             name: 'detail',
             component: detail
         },

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="top_nav">
     <div class="top">
       <div class="top_content">
         <img src="../assets/address.png" alt class="address" />
@@ -79,6 +79,11 @@ export default {
 };
 </script>
 <style>
+.top_nav{
+  background-color: #fff;
+  border-bottom: 1px solid #e5e5e5;
+  box-shadow: 2px 2px 5px rgba(0,0,0,.05);
+}
 .goodsche{
     height: 30px;
     border: 1px solid #e5e5e5;
