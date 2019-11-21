@@ -8,7 +8,7 @@
         </div>
         <div class="el-icon-arrow-right"></div>
         <div>
-          <a href class>同步课列表</a>
+          <a href="">同步课列表</a>
         </div>
         <div class="el-icon-arrow-right"></div>
         <div>【寒假目标985班】高一化学直播班（旧教材必修2）</div>
@@ -63,36 +63,36 @@
                   <el-table :data="tableData" style="width: 100%">
                     <el-table-column prop="date"></el-table-column>
                     <el-table-column prop="name"></el-table-column>
-                    <el-table-column prop="address" ></el-table-column>
+                    <el-table-column prop="address"></el-table-column>
                   </el-table>
-                   <div class="course_more">查看全部大纲<i class="el-icon-arrow-down"></i></div>
+                  <div class="course_more">
+                    查看全部大纲
+                    <i class="el-icon-arrow-down"></i>
+                  </div>
                 </div>
               </el-tab-pane>
               <el-tab-pane label="课程详情"></el-tab-pane>
             </el-tabs>
-            <div class="course_cour"> 
+            <div class="course_cour">
               <p>课程详情</p>
-              <div  class="course_cour1"></div>             
+              <div class="course_cour1"></div>
             </div>
           </div>
         </div>
         <div class="price">
           <div class="detail-right_price">
-            ￥<span>700</span>
+            ￥
+            <span>700</span>
             <p>剩余11个名额</p>
           </div>
           <div class="detail-right_item">
-            <img src="../assets/price1.png" alt="">
-            <span class="detail-right_coupon">
-              满2000减351
-            </span>
+            <img src="../assets/price1.png" alt />
+            <span class="detail-right_coupon">满2000减351</span>
             <i class="el-icon-arrow-down"></i>
           </div>
-           <div class="detail-right_item">
-            <img src="../assets/price3.png" alt="">
-            <span class="detail-right_course">
-              换购一门精品课程
-            </span>
+          <div class="detail-right_item">
+            <img src="../assets/price3.png" alt />
+            <span class="detail-right_course">换购一门精品课程</span>
             <i class="el-icon-arrow-right"></i>
           </div>
           <div class="detail-right_item">
@@ -100,16 +100,20 @@
             <div class="detail-right_item1">
               <span class="detail-right_sourse">配套学习资料</span>
               <span class="detail-right_sourse">赠送课程</span>
-            </div>            
+            </div>
           </div>
           <div class="detail-right_item detail-right_item2">
-            服务<span>直播授课 / 随时退款 /随时看回放/</span><i class="el-icon-arrow-down"></i>
+            服务
+            <span>直播授课 / 随时退款 /随时看回放/</span>
+            <i class="el-icon-arrow-down"></i>
           </div>
           <div class="detail-right_item">
             <template>
               <el-button type="text" class="detail-right_btn btn1" @click="open">加入购物车</el-button>
+            </template> 
+            <template class="btn_secc">
+              <el-button type="text" class="detail-right_btn btn2" @click="open">立即报名</el-button>
             </template>
-            <div class="detail-right_btn btn2">立即报名</div>
           </div>
         </div>
       </div>
@@ -126,114 +130,251 @@ export default {
     hearderindex,
     footerindex
   },
-  methods:{
-    getscroll(){
-      console.log(body.onscroll())
-      console.log(111)
+  methods: {
+    getscroll() {
+      console.log(body.onscroll());
+      console.log(111);
     },
-     open() {
-        this.$alert('<strong>这是 <i>HTML</i> 片段</strong>', 'HTML 片段', {
+    open() {
+      this.$alert(
+        `
+      <div class="detail_alert">
+        <div class="alert_title">已报课程</div>
+        <div class="alert_content">
+          <div class="detail_se alert_se">
+            <div class="detail_words">
+              <span class="course">化学</span>
+              <span class="goal">【寒假目标985班】高一化学直播班（旧教材必修2）</span>
+              <span class="alert_price">￥700</span>
+            </div>
+            <p class="detail_info">一期：1月17日-1月23日每天07:30-09:45</p>
+            <p class="detail_info">
+              难度：
+              <img src="../assets/star.png" alt />
+              <img src="../assets/star.png" alt />
+              <img src="../assets/star.png" alt />
+            </p>
+            <div class="teachers alert_teacher">
+              <div class="teacher">
+                <div class="teacher_pict"></div>
+                <div class="teacher_words">
+                  <p>授课</p>
+                  <p>杨芳</p>
+                </div>
+              </div>
+              <div class="teacher teacher1">
+                <div class="teacher_pict teacher1_pict"></div>
+                <div class="teacher_words">
+                  <p>辅导</p>
+                  <p>网校辅导</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="detail_alert">
+        <div class="alert_title">已报课程</div>
+        <div class="alert_content">
+          <div class="detail_se alert_se">
+            <div class="detail_words">
+              <span class="course">化学</span>
+              <span class="goal">【寒假目标985班】高一化学直播班（旧教材必修2）</span>
+              <span class="alert_price">￥700</span>
+            </div>
+            <p class="detail_info">一期：1月17日-1月23日每天07:30-09:45</p>
+            <p class="detail_info">
+              难度：
+              <img src="../assets/star.png" alt />
+              <img src="../assets/star.png" alt />
+              <img src="../assets/star.png" alt />
+            </p>
+            <div class="teachers alert_teacher">
+              <div class="teacher">
+                <div class="teacher_pict"></div>
+                <div class="teacher_words">
+                  <p>授课</p>
+                  <p>杨芳</p>
+                </div>
+              </div>
+              <div class="teacher teacher1">
+                <div class="teacher_pict teacher1_pict"></div>
+                <div class="teacher_words">
+                  <p>辅导</p>
+                  <p>网校辅导</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>    
+        `,
+        {
           dangerouslyUseHTMLString: true
-        });
-      }
+        }
+      );
+    }
   },
   data() {
-        return {
-          tableData: [{
-            date: '第一天',
-            name: '原子结构与元素周期表▪知识预习',
-            address: '01月17日 周五 07:30 - 09:45'
-          }, {
-            date: '第二天',
-            name: '元素周期律▪知识预习',
-            address: '上海市普陀区金沙江路 1517 弄'
-          }, {
-            date: '第三天',
-            name: '离子键和共价键▪知识预习',
-            address: '01月19日 周日 07:30 - 09:45'
-          }]
+    return {
+      tableData: [
+        {
+          date: "第一天",
+          name: "原子结构与元素周期表▪知识预习",
+          address: "01月17日 周五 07:30 - 09:45"
+        },
+        {
+          date: "第二天",
+          name: "元素周期律▪知识预习",
+          address: "上海市普陀区金沙江路 1517 弄"
+        },
+        {
+          date: "第三天",
+          name: "离子键和共价键▪知识预习",
+          address: "01月19日 周日 07:30 - 09:45"
         }
-      }
+      ]
+    };
+  }
 };
 </script>
 <style>
-.goal{
+.el-button--primary{
+  background-color: #f13232;
+}
+.alert_price{
+  font-size: 16px;
+  color: #f13232;
+  float: right;
+}
+.alert_content .teachers{
+  margin-top: 20px;
+  margin-bottom: 0;
+}
+.alert_content .detail_se{
+  border: 1px solid #f1f1f1;
+  margin-top: 15px;
+}
+.detail_alert .goal{
+  font-size: 16px;
+}
+.detail_alert .detail_info{
+  font-size: 12px;
+}
+.detail_alert .course{
+  font-size: 12px;
+}
+.detail_alert .alert_content{
+  font-size: 12px;
+}
+.detail_alert .teacher_pict{
+  width: 34px;
+  height: 34px;
+}
+.el-message-box{
+  width: 60%;
+}
+.detail_alert {
+  padding: 20px;
+}
+.alert_title {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+.goal {
   font-size: 20px;
 }
-.yetou a{
+.yetou a {
   text-decoration: none;
   color: #666;
 }
-.btn1{
-    text-align: center;
-    width: 150px;
-    height: 40px;
-    background: rgba(241,50,50,.1);
-    border: 1px solid #f13232;
-    border-radius: 2px;
-    color: #f13232;
-    cursor: pointer;
-    float: left;
-}
-.btn2{
-    background: #f13232;
-    border: 1px solid #f13232;
-    border-radius: 2px;
-    color: #fff;
-    font-size: 18px;
-    line-height: 40px;
-    cursor: pointer;
-    float: right;
-}
-.detail-right_btn{
-  width: 148px;
-  height: 38px;
+.btn1 {
   text-align: center;
-  line-height: 38px;
+  width: 150px;
+  height: 42px;
+  background: rgba(241, 50, 50, 0.1);
+  border: 1px solid #f13232;
+  border-radius: 2px;
+  color: #f13232;
+  cursor: pointer;
+  float: left;
 }
-.detail-right_item2{
+.btn1:hover {
+  height: 40px;
+  background: rgba(241, 50, 50, 0.1);
+  border: 1px solid #f13232;
+  border-radius: 2px;
+  color: #f13232;
+}
+.el-button--text:focus,
+.el-button--text:hover {
+  color: #f13232;
+  border-color: #f13232;
+  background-color: rgba(241, 50, 50, 0.1);
+}
+.btn2 {
+  background: #f13232;
+  border: 1px solid #f13232;
+  border-radius: 2px;
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+  float: right;
+}
+.btn2:hover{
+  background: #f13232;
+  border: 1px solid #f13232;
+  border-radius: 2px;
+  color: #fff;
+}
+.detail-right_btn {
+  width: 148px;
+  height: 40px;
+  text-align: center;
+}
+.detail-right_item2 {
   color: #666666;
   font-size: 14px;
 }
-.detail-right_item2 span{
+.detail-right_item2 span {
   margin-left: 45px;
 }
-.detail-right_item2 .el-icon-arrow-down{
+.detail-right_item2 .el-icon-arrow-down {
   color: #666666;
 }
-.detail-right_sourse{
+.detail-right_sourse {
   background-color: #f8f8f8;
   color: #f13232;
   font-size: 12px;
   padding: 4px;
   margin-left: 10px;
 }
-.detail-right_item1{
+.detail-right_item1 {
   margin-left: 40px;
   display: inline;
-
 }
-.detail-right_course{
+.detail-right_course {
   color: #f0773c;
   font-size: 14px;
   margin-left: 24px;
 }
-.detail-right_item{
+.detail-right_item {
   margin-bottom: 20px;
 }
-.el-icon-arrow-down{
+.el-icon-arrow-down {
   float: right;
   line-height: 22px;
   font-size: 14px;
   color: #f13232;
 }
-.detail-right_item .el-icon-arrow-right{
+.detail-right_item .el-icon-arrow-right {
   float: right;
   line-height: 22px;
   font-size: 14px;
   color: #f0773c;
 }
-.detail-right_coupon{
+.detail-right_coupon {
   display: inline-block;
   color: #f13232;
   font-size: 12px;
@@ -246,20 +387,20 @@ export default {
   background-repeat: no-repeat;
   margin: 0 20px;
 }
-.detail-right_price{
-  color: #f13232
+.detail-right_price {
+  color: #f13232;
 }
-.detail-right_item img{
+.detail-right_item img {
   width: 42px;
   height: 16px;
 }
-.detail-right_price p{
+.detail-right_price p {
   color: #999;
   font-size: 12px;
   margin-top: 10px;
   margin-bottom: 30px;
 }
-.detail-right_price span{
+.detail-right_price span {
   font-size: 40px;
 }
 .price {
@@ -269,29 +410,29 @@ export default {
   padding: 40px 20px;
   border-top: 3px solid #f13232;
 }
-.course_item{
+.course_item {
   width: 658px;
   margin: 150px auto;
 }
-.course_cour1{
+.course_cour1 {
   width: 750px;
   height: 562px;
   margin: 20px auto;
   background-image: url("../assets/detail5.jpg");
 }
-.course_cour{
+.course_cour {
   padding: 20px;
 }
-.course_cour p{
+.course_cour p {
   font-size: 18px;
   color: #333;
 }
-.course_more{
+.course_more {
   margin: 20px auto;
   font-size: 14px;
   text-align: center;
 }
-.course_more i{
+.course_more i {
   margin-left: 10px;
 }
 .course_dagang1 {

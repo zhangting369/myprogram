@@ -2,7 +2,13 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import footer_index from '@/components/footer_index'
 import hearder_index from '@/components/hearder_index'
+import login from '@/components/login'
 import detail from '@/view/detail'
+import mycourse from '@/view/mycourse'
+import progress from '@/view/progress'
+import index from '@/view/index'
+import xiangqingye from '@/view/xiangqingye'
+import order from '@/view/order'
 Vue.use(Router)
 
 export default new Router({
@@ -13,14 +19,44 @@ export default new Router({
             component: footer_index
         },
         {
-            path: '/hearder_index',
+            path: '/hearder_index/123',
             name: 'hearder_index',
             component: hearder_index
         },
         {
-            path: '/',
+            path: '/detail',
             name: 'detail',
             component: detail
+        },
+        {
+            path: '/',
+            name: 'login',
+            component: login
+        },
+        {
+            path: '/mycourse',
+            name: 'mycourse',
+            component: mycourse
+        },
+        {
+            path: '/progress',
+            name: 'progress',
+            component: progress
+        },
+        {
+            path: '/index',
+            name: 'index',
+            component: index
+        },
+        {
+            path: '/xiangqingye',
+            name: 'xiangqingye',
+            component: xiangqingye
+        },
+        {
+            path: '/order',
+            name: 'order',
+            component: order
         },
     ]
 })
