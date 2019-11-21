@@ -55,7 +55,7 @@
             </a>
           </div>
         </div>
-        <div class="goodsche">
+        <div class="goodsche" @click="goodsche()">
           <i class="el-icon-shopping-cart-1"></i>
           购物车
         </div>
@@ -72,6 +72,9 @@ export default {
     };
   },
   methods: {
+    goodsche(){
+      this.$router.push("/goodsche")
+    },
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
     },

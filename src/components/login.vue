@@ -1,7 +1,7 @@
 <template>
 <div class="resiger">
         <div class="tupian">
-            <img src="../assets/logo.png" alt="">
+            <img src="../assets/logo_pro.png" alt="">
         </div>
         <img class="imgs3" src="../assets/img_5.png" alt="">
     <div class="logon">
@@ -12,7 +12,9 @@
           <div class="why"><input type="text" name="" id="" placeholder="请输入验证码" >
           <div class="yanzheng">获取验证码</div>
           </div>
-          <a href="../index"><input type="submit" value="登录" class="denglu" @click="but()"></a>
+          <template>
+            <el-button type="text" @click="open" class="denglu">登录</el-button>
+          </template>
           <div class="new">新用户登录后自动创建账号</div>
       </div>
       <div v-if="n==2" class="twomenu">
@@ -27,50 +29,6 @@
       <div class="deng">
         登录即代表你已阅读并同意
         </div>
-  </div>
-  <div v-on:show="see" class="xuan">
-      <div class="nianji">设置年级</div>
-       <div class="nianji1">学生在读年级</div>
-
-       <div class="xia">
-            <div class="xiao">幼儿园</div>
-                 <div class="xiang">
-                <el-radio-group v-model="radio1">
-                <el-radio-button label="小班"></el-radio-button>
-                <el-radio-button label="中班"></el-radio-button>
-                <el-radio-button label="大班"></el-radio-button>
-                </el-radio-group>
-            </div>
-             <div class="xiao">小学</div>
-                 <div class="xiang">
-                <el-radio-group v-model="radio1">
-                <el-radio-button label="一年级"></el-radio-button>
-                <el-radio-button label="二年级"></el-radio-button>
-                <el-radio-button label="三年级"></el-radio-button>
-                <el-radio-button label="四年级"></el-radio-button>
-                <el-radio-button label="五年级"></el-radio-button>
-                <el-radio-button label="六年级"></el-radio-button>
-                </el-radio-group>
-            </div>
-             <div class="xiao">初中</div>
-                 <div class="xiang">
-                <el-radio-group v-model="radio1">
-                <el-radio-button label="初一"></el-radio-button>
-                <el-radio-button label="初二"></el-radio-button>
-                <el-radio-button label="初三"></el-radio-button>
-               </el-radio-group>
-            </div>
-             <div class="xiao">高中</div>
-                 <div class="xiang">
-                <el-radio-group v-model="radio1">
-                <el-radio-button label="高一"></el-radio-button>
-                <el-radio-button label="高二"></el-radio-button>
-                <el-radio-button label="高三"></el-radio-button>
-               </el-radio-group>
-            </div>
-            
-       </div>
-      <div class="tijiao">提交</div> 
   </div>
   </div>
 </template>
@@ -87,20 +45,77 @@ export default {
         }
     },
     methods: {
+        getlogin(){
+            this.$router.push("/index")
+        },
+        open() {
+        this.$alert(`
+         <div class="login_tan">
+            <div class="nianji">设置年级</div>
+            <div class="nianji1">学生在读年级</div>
+            <div class="xia">
+            <div class="xiao">幼儿园</div>
+                 <div class="xiang">
+                <span class="login_xiao">小班</span>
+                <span class="login_xiao">中班</span>
+                <span class="login_xiao">大班</span>
+            </div>
+             <div class="xiao">小学</div>
+                <div class="xiang">
+                <span class="login_xiao">一年级</span>
+                <span class="login_xiao">二年级</span>
+                <span class="login_xiao">三年级</span>
+                <span class="login_xiao">四年级</span>
+                <span class="login_xiao">五年级</span>
+                <span class="login_xiao">六年级</span>
+            </div>
+             <div class="xiao">初中</div>
+                 <div class="xiang">
+                <span class="login_xiao">初一</span>
+                <span class="login_xiao">初二</span>
+                <span class="login_xiao">初三</span>
+            </div>
+             <div class="xiao">高中</div>
+                 <div class="xiang">
+                <span class="login_xiao">高一</span>
+                <span class="login_xiao">高二</span>
+                <span class="login_xiao">高三</span>
+            </div>           
+       </div>
+       <input type="submit" value="登录" class="tijiao" @click="getlogin()">
+         </div>
+        `,  {
+          dangerouslyUseHTMLString: true
+        });
+      },
         btn(item){
             this.n=item;
-        },
-        but(){
-            this.see=!this.see
         }
     },
 }
 </script>
 
 <style>
-*{
-    padding: 0;
-    margin: 0;
+.el-message-box__btns{
+    display: none;
+}
+.login_xiao{
+    display: inline-block;
+    width: 50px;
+    text-align: center;
+    padding: 5px 20px;
+    border: 1px solid #bbb;
+    border-radius: 20px;
+    background-color: #fafafa;
+    color: #212831;
+    border-radius: 44px;
+    margin: 5px 6px;
+    cursor: pointer;
+}
+.login_xiao:active{
+    background-color: rgba(241, 50, 50, 0.1);
+    color: #f13232;
+    border: 1px solid #f13232;
 }
 .tupian{
     width: 190px;
@@ -257,7 +272,7 @@ border:rgb(179, 123, 123);
     left: 447px;
     text-align: center;
     border-radius: 12px;
-    display: none;
+    /* display: none; */
 }
 .nianji{
     width: 120px;
@@ -276,30 +291,6 @@ border:rgb(179, 123, 123);
     color: lightslategrey;
     line-height: 38px;
 }
-.el-radio-button__inner,.el-radio-button .is-active,.el-radio-button .is-active .is-focus{
-    width: 81px;
-    height: 30px;
-    background-color: #fafafa;
-    color: #212831;
-    border-radius: 44px;
-    margin: 5px 6px;
-    line-height: 5px;
-    text-align: center;
-}
-.el-radio-button:last-child .el-radio-button__inner{
-    border-radius: 44px;
-    background-color: #fafafa;
-    color: #212831;
-}
-.el-radio-button__orig-radio:checked+.el-radio-button__inner{
-    border-radius: 44px;
-    background-color: #fafafa;
-    color: #212831;
-}
-.el-radio-button:first-child .el-radio-button__inner{
-    border-radius: 44px;
-    color: #212831;
-}
 .xia{
     width: 345px;
     height: 350px;
@@ -315,5 +306,9 @@ border:rgb(179, 123, 123);
     margin: 20px auto;
     line-height: 50px;
     text-align: center;
+    outline: none;
+    border: none;
+    margin: 10px auto;
+    margin-left: 95px;
 }
 </style>

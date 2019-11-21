@@ -9,6 +9,7 @@ import progress from '@/view/progress'
 import index from '@/view/index'
 import xiangqingye from '@/view/xiangqingye'
 import order from '@/view/order'
+import goodsche from '@/view/goodsche'
 Vue.use(Router)
 
 export default new Router({
@@ -57,6 +58,11 @@ export default new Router({
             path: '/order',
             name: 'order',
             component: order
+        },
+        {
+            path: '/goodsche',
+            name: 'goodsche',
+            component: goodsche
         },
     ]
 })
