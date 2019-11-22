@@ -10,6 +10,8 @@ import index from '@/view/index'
 import xiangqingye from '@/view/xiangqingye'
 import order from '@/view/order'
 import goodsche from '@/view/goodsche'
+import quanxuan from '@/view/quanxuan'
+import account from '@/view/account'
 Vue.use(Router)
 
 export default new Router({
@@ -63,6 +65,16 @@ export default new Router({
             path: '/goodsche',
             name: 'goodsche',
             component: goodsche
+        },
+        {
+            path: '/quanxuan',
+            name: 'quanxuan',
+            component: quanxuan
+        },
+        {
+            path: '/account',
+            name: 'account',
+            component: account
         },
     ]
 })

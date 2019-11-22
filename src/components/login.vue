@@ -8,23 +8,21 @@
       <div :class="n==1?class1:class2" @click="btn(1)">验证码登录</div>
       <div :class="n==2?class1:class2" @click="btn(2)">密码登录</div>
       <div v-if="n==1" class="twomenu">
-          <div class="why"><input type="text" name="" id="" placeholder="请输入邮箱号" ></div>
-          <div class="why"><input type="text" name="" id="" placeholder="请输入验证码" >
-          <div class="yanzheng">获取验证码</div>
-          </div>
-          <template>
-            <el-button type="text" @click="open" class="denglu">登录</el-button>
-          </template>
-          <div class="new">新用户登录后自动创建账号</div>
+            <div class="why"><input type="email" v-model="emailyan" placeholder="请输入邮箱号" ></div>
+            <div class="why"><input type="text" v-model="yanzheng" placeholder="请输入验证码" >
+            <div class="yanzheng" @click="getyanzheng()">获取验证码</div>
+            </div>
+            <template>
+            <input type="submit" value="注册" class="denglu1" @click="getlogin()">
+            </template>
+            <div class="new">新用户登录后自动创建账号</div>        
       </div>
-      <div v-if="n==2" class="twomenu">
-          
-          <div class="why1"><input type="text" name="" id="" placeholder="请输入手机号/通行证/邮件" ></div>
-          <div class="why1"><input type="text" name="" id="" placeholder="请输入登录密码" >
+      <div v-if="n==2" class="twomenu">         
+          <div class="why1"><input type="text" v-model="userid" placeholder="请输入手机号/通行证/邮件" ></div>
+          <div class="why1"><input type="text" v-model="userpassword" placeholder="请输入登录密码" >
           <div class="yanzheng1">忘记密码</div>
           </div>
-          <a href="../index"><input type="submit" value="登录" class="denglu1"></a>
-
+          <input type="submit" value="注册" class="denglu1" @click="getloginuser()">
       </div>
       <div class="deng">
         登录即代表你已阅读并同意
@@ -41,53 +39,94 @@ export default {
             class2:'choose',            
             n:1,
             radio1: '上海',
-            see:false
+            see:false,
+            emailyan:"",
+            yanzheng:"",
+            userid:"",
+            userpassword:""
         }
     },
     methods: {
-        getlogin(){
-            this.$router.push("/index")
+        getyanzheng(){
+            // this.$router.push("/index")
+            this.$http.get('/api/sendMail',{
+               params:{
+                   email:this.emailyan
+                   }
+            }).then(res=>{
+                console.log(res);
+            })
+
         },
-        open() {
-        this.$alert(`
-         <div class="login_tan">
-            <div class="nianji">设置年级</div>
-            <div class="nianji1">学生在读年级</div>
-            <div class="xia">
-            <div class="xiao">幼儿园</div>
-                 <div class="xiang">
-                <span class="login_xiao">小班</span>
-                <span class="login_xiao">中班</span>
-                <span class="login_xiao">大班</span>
-            </div>
-             <div class="xiao">小学</div>
-                <div class="xiang">
-                <span class="login_xiao">一年级</span>
-                <span class="login_xiao">二年级</span>
-                <span class="login_xiao">三年级</span>
-                <span class="login_xiao">四年级</span>
-                <span class="login_xiao">五年级</span>
-                <span class="login_xiao">六年级</span>
-            </div>
-             <div class="xiao">初中</div>
-                 <div class="xiang">
-                <span class="login_xiao">初一</span>
-                <span class="login_xiao">初二</span>
-                <span class="login_xiao">初三</span>
-            </div>
-             <div class="xiao">高中</div>
-                 <div class="xiang">
-                <span class="login_xiao">高一</span>
-                <span class="login_xiao">高二</span>
-                <span class="login_xiao">高三</span>
-            </div>           
-       </div>
-       <input type="submit" value="登录" class="tijiao" @click="getlogin()">
-         </div>
-        `,  {
-          dangerouslyUseHTMLString: true
-        });
-      },
+        getlogin(){           
+            this.$http.get('/api/login',{
+               params:{
+                   email:this.emailyan,
+                   yan:this.yanzheng
+                   }
+            }).then(res=>{
+                console.log(res);
+                if(res.data){
+                    this.$router.push("/index")
+                }else{
+                    if(res.config.params.email==""||res.config.params.yan==""){
+                        this.$alert(`
+                        <div class="login_tan">
+                            邮箱或验证码不能为空！！！       
+                        </div>                    
+                    `,  {
+                    dangerouslyUseHTMLString: true
+                    });
+                    }else{
+                         this.$alert(`
+                        <div class="login_tan">
+                            邮箱或验证码错误！！！       
+                        </div>                    
+                    `,  {
+                    dangerouslyUseHTMLString: true
+                    });
+                    }
+                  
+                }
+            })
+        },
+         getloginuser(){           
+            this.$http.get('/api/login1',{
+               params:{
+                   user_id:this.userid,
+                   user_password:this.userpassword
+                   }
+            }).then(res=>{
+                console.log(res);
+                if(res.data){
+                    this.$router.push("/index")
+                }else{
+                    if(res.config.params.user_id==""||res.config.params.user_password==""){
+                        this.$alert(`
+                        <div class="login_tan">
+                            用户名或密码不能为空！！！       
+                        </div>                    
+                    `,  {
+                    dangerouslyUseHTMLString: true
+                    });
+                    }else{
+                         this.$alert(`
+                        <div class="login_tan">
+                            用户名或密码错误！！！       
+                        </div>                    
+                    `,  {
+                    dangerouslyUseHTMLString: true
+                    });
+                    }
+                  
+                }
+            })
+        },
+
+        
+    //     open() {
+        
+    //   },
         btn(item){
             this.n=item;
         }
@@ -165,6 +204,7 @@ export default {
     float: right;
     font-size: 12px;
     color: #858c96;
+    cursor: pointer;
 }
 .denglu{
     width: 300px;
