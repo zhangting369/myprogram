@@ -186,7 +186,8 @@ export default {
         .then(res => {
           console.log(res);
           if (res.status==200) {
-              this.$router.push("/index?id="+res.data);
+              this.$router.push("/index");
+              localStorage.setItem("uid",res.data);
             console.log(res.data)
           } else {
             if (this.emailyan == "" ||

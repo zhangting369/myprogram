@@ -9,7 +9,7 @@
           <a href>客户端下载</a>|
           <a href="/order">我的订单</a>|
           <a href>设置</a>|
-          <a href>立即登录</a>
+          <a href>{{uname}}</a>
         </div>
       </div>
     </div>
@@ -30,7 +30,7 @@
             </el-menu-item>
             <el-menu-item index="2">免费讲座</el-menu-item>
             <el-menu-item index="3">
-              <a href="/mycourse" target="_blank">学习中心</a>
+              <a href="/ziliao">学习中心</a>
             </el-menu-item>
             <el-menu-item index="5">一对一</el-menu-item>
             <el-submenu index="5">
@@ -68,10 +68,22 @@ export default {
   data() {
     return {
       activeIndex: "1",
-      valueword: ""
+      valueword: "",
+      uid:"",
+      uname:""
     };
   },
+  mounted(){   
+    this.uid=localStorage.getItem("uid");
+    this.getname();
+  },
   methods: {
+    getname(){
+      this.$http.get("/upi//userinfo/"+this.uid).then(res=>{
+        console.log(res)
+        this.uname=res.data[0].uname;
+      })
+    },
     goodsche(){
       this.$router.push("/goodsche")
     },
@@ -79,7 +91,7 @@ export default {
       console.log(key, keyPath);
     },
     getvalue() {
-      this.$router.push("/xiangqingye?valueword="+$(".val_item").text())
+      this.$router.push("/xiangqingye")
     },
     getvalue1() {
       console.log($(".val_item1").text());

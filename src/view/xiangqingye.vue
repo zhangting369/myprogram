@@ -9,7 +9,7 @@
           mode="horizontal"
           @select="handleSelect"
         >
-          <el-menu-item index="1">选课中心&nbsp></el-menu-item>
+          <el-menu-item index="1">选课中心&nbsp;></el-menu-item>
           <el-submenu index="2" class="xiangqingye_chuyi">
             <template slot="title">初一</template>
             <el-menu-item index="2-1">中班</el-menu-item>
@@ -152,30 +152,21 @@ export default {
     };
   },
   mounted(){
-    this.getdataby();
-    console.log(this.$route);
-    this.uid=this.$route.query.id;
-
+    this.$http.get("/api/findAll5",{
+    }).then(res=>{
+      console.log(res);
+      this.jiekou=res.data;     
+    })
   },
   methods: {
-    tianzhuan1(course_id){
-      this.$router.push("/detail?id="+this.uid+"&course_id="+course_id);
+    tianzhuan1(courseid){
+      console.log(courseid)
+      this.$router.push("/detail");
+       localStorage.setItem("courseid",courseid);
     },
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
     },
-     getdataby(){
-    this.$http.get("/api/findAll5",{
-    }).then(res=>{
-      console.log(res);
-      this.jiekou=res.data;
-      
-    })
-  }
-  },
-  created(){
-      console.log(this.$route);
-      this.valueword=this.$route.query.valueword;
   },
   
  

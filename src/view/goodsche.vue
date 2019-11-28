@@ -14,7 +14,7 @@
           <el-row v-for="(item,xunhuan) in lookback" :key="xunhuan">
             <el-col class="dingdan_content1_middle1">
               <el-card  class="dingdan_conent1_write" shadow="never">
-          <input type="checkbox" :value="item.courseId" class="goods_app" @click="caculate(ischecked,xunhuan)"/>
+          <input type="checkbox" v-model="checkModel" :value="item.courseId" class="goods_app" @click="caculate(ischecked,xunhuan)"/>
 
                 <div class="dingdan_concent1_write1">
                   <p class="dingdan_huaxue">{{item.courseSubject}}</p>
@@ -49,7 +49,7 @@
                 <span class="dingdan_jiage1">
                   <p class="dingdan_jiage">￥{{item.coursePrice}}</p>元
                 </span>
-                <p class="dingdan_shanchu">删除</p>
+                <p class="dingdan_shanchu" @click="delgoods(item.courseId)">删除</p>
 
                 <p class="dingdan_xiantiao"></p>
                 <p class="dingdan_baoming">剩余{{item.courseDifficulty}}名额</p>
@@ -85,81 +85,76 @@ export default {
   },
   data() {
     return {
-      list: [
-        {
-          id: 1,
-          name: "添加"
-        },
-        {
-          id: 2,
-          name: "添加"
-        },
-        {
-          id: 3,
-          name: "添加"
-        }
-      ],
       ischecked:false,
       checked: false, //是否全选
       checkModel: [], //双向数据绑定的数组，我是用的id
       lookback:[],
        totalNumber: 0, //总数
-       booklest:""
+       booklest:"",
+       uid:"",
+       couurse_id:""
     };
   },
   watch: {
     checkModel() {
-      if (this.checkModel.length == this.list.length) {
+      if (this.checkModel.length == this.lookback.length) {
         this.checked = true;
-
       } else {
         this.checked = false;
       }
     }
   },
-
   mounted() {
-    this.$http.get("/xpi/cartitem1",{params:{userId:2}}).then((res)=>{
-      console.log(res)
-      this.lookback=res.data.data;
-    })
+    this.uid=parseInt(localStorage.getItem("uid"));
+    this.getgoods();
   },
 
   methods: {
+    getgoods(){
+      this.$http.get("/xpi/cartitem1",{
+        params:{userId:this.uid}
+        }).then((res)=>{
+      console.log(res)
+      this.lookback=res.data.data;
+    })
+    },
+    delgoods(courseid){
+      let delgoods=new FormData();
+      delgoods.append("courseId",courseid)
+      delgoods.append("userId",this.uid)
+      let data={
+        courseId:courseid,
+        userId:this.uid
+      }
+      this.$http.delete("/xpi/cartitem",{params:data}).then(res=>{
+        console.log(res)
+      })
+    },
     goodsCkeck() {
       this.ischecked=true;
       var input = document.getElementsByTagName('input')
       if (this.checked) {
         this.checkModel = [];
       } else {
-        this.list.forEach(item => {
-          if (this.checkModel.indexOf(item.id) == -1) {
-            this.checkModel.push(item.id);
+        this.lookback.forEach(item => {
+          if (this.checkModel.indexOf(item.courseId) == -1) {
+            this.checkModel.push(item.courseId);
           }
         });
       }     
     },
-     addgoods(){
-            this.$http.get("/xpi/cartitem",{params:{courseId:45,userId:1}}).then((res)=>{
-      console.log(res)
-      this.booklest=res.data.data;
-      console.log(res.data.data)
-    })
-      },
     // 计算总金额
     caculate(aa,id){
-      console.log(this.lookback)
-      if(aa==false){
+      console.log(aa)
+      if(aa){      
           this.totalNumber+=this.lookback[id].coursePrice;
-          this.ischecked=!this.ischecked;
-          
+          this.lookback[id].ischecked=!this.lookback[id].ischecked;        
       }else{
-        aa==true
          this.totalNumber-=this.lookback[id].coursePrice;
-         this.ischecked=!this.ischecked;
+         this.lookback[id].ischecked=!this.lookback[id].ischecked;
       }
           console.log(aa)
-          console.log(id);
+          // console.log(price);
           console.log(this.totalNumber);
         },
     cauSum:function(){
@@ -326,6 +321,7 @@ export default {
   font-size: 14px;
   float: right;
   margin: -70px 44px;
+  cursor: pointer;
 }
 .dingdan_xiantiao {
   width: 90%;

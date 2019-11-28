@@ -111,7 +111,7 @@
               <el-button type="text" class="detail-right_btn btn1" @click="addgoodsche()">加入购物车</el-button>
             </template> 
             <template class="btn_secc">
-              <el-button type="text" class="detail-right_btn btn2">立即报名</el-button>
+              <el-button type="text" class="detail-right_btn btn2" @click="gouwuche()">购物车</el-button>
             </template>
           </div>
         </div>
@@ -154,21 +154,26 @@ export default {
     }
   },
   mounted(){
-      this.course_id=this.$route.query.course_id;
-      this.uid=this.$route.query.id;
-       this.$http.get("/api/findByUid11?course_id="+this.course_id).then(res=>{
-      console.log(res.data)
-      this.detaillist=res.data;
+      this.course_id=parseInt(localStorage.getItem("courseid"));
+      this.uid=parseInt(localStorage.getItem("uid"));
       console.log(this.course_id)
+      console.log(this.uid)
+       this.$http.get("/api/findByUid11?course_id="+this.course_id).then(res=>{
+      // console.log(res.data)
+      this.detaillist=res.data;
     })
   },
   methods:{
+    gouwuche(){
+      this.$router.push("/goodsche")
+    },
     addgoodsche(){
-      this.$http.post("/xpi/cartitem",{
-        courseId:this.course_id,
-        userId:this.uid
-      }).then(res=>{
-        console.log(res)
+      let addcart=new FormData();
+      addcart.append('courseId',this.course_id)
+      addcart.append('userId',this.uid)
+      this.$http.post("/xpi/cartitem",addcart).then(res=>{
+        // console.log(res)
+        
       })
     }
   }

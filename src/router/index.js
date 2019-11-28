@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import footer_index from '@/components/footer_index'
 import hearder_index from '@/components/hearder_index'
+import header_center from '@/components/header_center'
 import login from '@/components/login'
 import detail from '@/view/detail'
 import mycourse from '@/view/mycourse'
@@ -23,9 +24,14 @@ export default new Router({
             component: footer_index
         },
         {
-            path: '/hearder_index/123',
+            path: '/hearder_index',
             name: 'hearder_index',
             component: hearder_index
+        },
+        {
+            path: '/header_center',
+            name: 'header_center',
+            component: header_center
         },
         {
             path: '/detail',

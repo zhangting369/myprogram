@@ -10,7 +10,7 @@
           <a href>客户端下载</a>|
           <a href>我的订单</a>|
           <a href>设置</a>|
-          <a href>立即登录</a>
+          <a href>{{uname}}</a>
         </div>
       </div>
     </div>
@@ -45,9 +45,20 @@ export default {
     return {
       activeIndex: "1",
       activeIndex2: "1",
+      uname:"登录管理"
     }
     },
+    mounted(){
+       this.uid=localStorage.getItem("uid");
+    this.getname();
+    },
     methods: {
+       getname(){
+      this.$http.get("/upi//userinfo/"+this.uid).then(res=>{
+        console.log(res)
+        this.uname=res.data[0].uname;
+      })
+    },
     handleSelect(key, keyPath) {
     console.log(key, keyPath);
     }, 
