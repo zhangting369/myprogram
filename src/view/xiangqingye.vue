@@ -46,7 +46,7 @@
       <div class="xiangqingye_content1_xia">
         <ul class="xiangqingye_nianji">
           <li class="xiangqingye_xueke1">学期</li>
-          <li class="xiangqingye_xueke">寒</li>
+          <li class="xiangqingye_xueke" @click="getdataby()">寒</li>
           <li class="xiangqingye_xueke">春</li>
         </ul>
         <ul class="xiangqingye_nianji">
@@ -84,19 +84,18 @@
           <el-divider content-position="left"></el-divider>
         </div>
       </div>
-      <el-row>
-          <a href="/detail">
+      <el-row v-for="(item,souty) in jiekou" :key="souty">
         <el-col class="xiangqingye_content2_middle" v-for="(o, index) in 3" :key="index">
           <el-card class="xiangqingye_conent2_write">
-            <div class="xiangqingye_concent2_write2">
-              <p class="xiangqingye_yuwen">语文</p>
-              <p class="xiangqingye_yuedu">【寒】初一大科学直播目标班（全国版）</p>
+            <div class="xiangqingye_concent2_write2" @click="tianzhuan1(item.course_id)">
+              <p class="xiangqingye_yuwen">{{item.course_subject}}</p>
+              <p class="xiangqingye_yuedu">{{item.course_name}}</p>
               <div class="xiangqingye_nuobeier">诺贝尔奖得主Carl Wieman参与课程研发</div>
               <span class="xiangqingye_shijian">
-                <p class="el-icon-time">一期：1月17日-1月23日每天16:00-18:10</p>
+                <p class="el-icon-time">一期：{{item.course_time}}-{{item.course_date}}每天16:00-18:10</p>
               </span>
               <span class="xiangqingye_nandu">
-                难度：
+                难度：{{item.course_difficulty}}
                 <p class="el-icon-star-on"></p>
                 <p class="el-icon-star-on"></p>
                 <p class="el-icon-star-on"></p>
@@ -105,7 +104,7 @@
             </div>
             <div class="xiangqingye_laoshi1">
               <div class="xiangqingye_laoshi">
-                <img src="../assets/content2_1.png" class="xiangqingye_image" />
+                <img :src="item.course_information" class="xiangqingye_image" />
                 <p class="xiangqingye_shouke">授课</p>
                 <p class="xiangqingye_shouke">杜春雨</p>
               </div>
@@ -121,13 +120,12 @@
               </div>
             </div>
             <p class="xiangqingye_xiantiao"></p>
-            <p class="xiangqingye_baoming">共3讲</p>
+            <p class="xiangqingye_baoming"></p>
             <span class="xiangqingye_jiage1">
-              <p class="xiangqingye_jiage">￥59</p>元
+              <p class="xiangqingye_jiage">￥{{item.course_price}}</p>元
             </span>
           </el-card>
         </el-col>
-        </a>
       </el-row>
     </div>
 
@@ -147,18 +145,40 @@ export default {
     return {
       activeIndex: "1",
       activeIndex2: "1",
-      valueword: ""
+      valueword: "",
+      jiekou:[],
+      uid:"",
+
     };
   },
+  mounted(){
+    this.getdataby();
+    console.log(this.$route);
+    this.uid=this.$route.query.id;
+
+  },
   methods: {
+    tianzhuan1(course_id){
+      this.$router.push("/detail?id="+this.uid+"&course_id="+course_id);
+    },
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
-    }
+    },
+     getdataby(){
+    this.$http.get("/api/findAll5",{
+    }).then(res=>{
+      console.log(res);
+      this.jiekou=res.data;
+      
+    })
+  }
   },
   created(){
       console.log(this.$route);
       this.valueword=this.$route.query.valueword;
-  }
+  },
+  
+ 
 };
 </script>
 

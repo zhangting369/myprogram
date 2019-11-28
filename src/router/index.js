@@ -12,6 +12,7 @@ import order from '@/view/order'
 import goodsche from '@/view/goodsche'
 import quanxuan from '@/view/quanxuan'
 import account from '@/view/account'
+import ziliao from '@/view/ziliao'
 Vue.use(Router)
 
 export default new Router({
@@ -75,6 +76,11 @@ export default new Router({
             path: '/account',
             name: 'account',
             component: account
+        },
+        {
+            path: '/ziliao',
+            name: 'ziliao',
+            component: ziliao
         },
     ]
 })

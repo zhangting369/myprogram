@@ -165,9 +165,20 @@ export default {
       stage:"三期：2月6日-2月12日每天18:50-21:00 · 共7讲",
       teacher:"授课： 朱韬",
       fuli:"教材福利 x 7",
-      moddder:"2220.00"
-
+      moddder:"2220.00",
+      list:[]
     };
+  },
+  mounted() {
+    this.$http.get("/api/findAll").then(res=>{
+      console.log(res)
+      this.list=res.data
+      for(var i=0;i<res.data.length;i++){
+        if(res.data[i].user_email==123){
+          console.log(res.data[i].user_id)
+        }
+      }
+    })
   },
   methods: {
     handleSelect(key, keyPath) {

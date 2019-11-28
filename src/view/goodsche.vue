@@ -8,17 +8,19 @@
         <p class="dingdan_cudan">去凑单></p>
       </div>
       <div class="dingdan_content1_middle">
-        <div v-for="(item,index) in list" :key="index" style="margin-top:20px;">
-          <input type="checkbox" v-model="checkModel" :value="item.id" class="goods_app"/>
-          <span>{{item.name}}</span>
-          <el-row>
-            <el-col class="dingdan_content1_middle1" v-for="(o, index) in 1" :key="index">
-              <el-card class="dingdan_conent1_write" shadow="never">
+        <!-- <div  v-for="(item,index) in list" :key="index" style="margin-top:20px;">
+          <input type="checkbox" v-model="checkModel" :value="item.id" class="goods_app" @click="caculate()"/>
+          <span></span> -->
+          <el-row v-for="(item,xunhuan) in lookback" :key="xunhuan">
+            <el-col class="dingdan_content1_middle1">
+              <el-card  class="dingdan_conent1_write" shadow="never">
+          <input type="checkbox" :value="item.courseId" class="goods_app" @click="caculate(ischecked,xunhuan)"/>
+
                 <div class="dingdan_concent1_write1">
-                  <p class="dingdan_huaxue">化学</p>
+                  <p class="dingdan_huaxue">{{item.courseSubject}}</p>
                   <p class="dingdan_mubiao">【寒】初一大科学直播目标班（全国版）</p>
                   <span class="dingdan_shijian">
-                    <p class="el-icon-time">2月22日-5月30日每周六09:00-11:10 · 共14讲</p>
+                    <p class="el-icon-time">{{item.courseDate}}每周六{{item.courseTime}} · 共14讲</p>
                   </span>
                   <span class="dingdan_nandu">
                     难度：
@@ -45,29 +47,29 @@
                   </div>
                 </div>
                 <span class="dingdan_jiage1">
-                  <p class="dingdan_jiage">￥1400</p>元
+                  <p class="dingdan_jiage">￥{{item.coursePrice}}</p>元
                 </span>
                 <p class="dingdan_shanchu">删除</p>
 
                 <p class="dingdan_xiantiao"></p>
-                <p class="dingdan_baoming">剩余2名额</p>
+                <p class="dingdan_baoming">剩余{{item.courseDifficulty}}名额</p>
               </el-card>
             </el-col>
           </el-row>
-        </div>
+        <!-- </div> -->
       </div>
     </div>
 
     <!-- <div class="dingdan_clean"></div> -->
     <div class="dingdan_footer">
       <div class="goods_quanxuan">
-        <input type="checkbox" @click="checkAll" v-model="checked" class="dingdan_quanxuan" />全选
+        <input type="checkbox" @click="goodsCkeck" v-model="checked" class="dingdan_quanxuan" />全选
         <div class="dingdan_footer_write">
           <div class="dingdan_zhifu">
-            <p class="dingdan_zhifu1">去支付</p>
+            <p class="dingdan_zhifu1" @click="cauSum">去支付</p>
           </div>
           <div class="dingdan_heji">
-            <p class="dingdan_heji1">合计：</p>￥0
+            <p class="dingdan_heji1">合计：￥{{totalNumber}}</p>
             <!-- <p class="dingdan_zongji"></p> -->
           </div>
         </div>
@@ -97,21 +99,36 @@ export default {
           name: "添加"
         }
       ],
+      ischecked:false,
       checked: false, //是否全选
-      checkModel: [] //双向数据绑定的数组，我是用的id
+      checkModel: [], //双向数据绑定的数组，我是用的id
+      lookback:[],
+       totalNumber: 0, //总数
+       booklest:""
     };
   },
   watch: {
     checkModel() {
       if (this.checkModel.length == this.list.length) {
         this.checked = true;
+
       } else {
         this.checked = false;
       }
     }
   },
+
+  mounted() {
+    this.$http.get("/xpi/cartitem1",{params:{userId:2}}).then((res)=>{
+      console.log(res)
+      this.lookback=res.data.data;
+    })
+  },
+
   methods: {
-    checkAll() {
+    goodsCkeck() {
+      this.ischecked=true;
+      var input = document.getElementsByTagName('input')
       if (this.checked) {
         this.checkModel = [];
       } else {
@@ -120,8 +137,38 @@ export default {
             this.checkModel.push(item.id);
           }
         });
+      }     
+    },
+     addgoods(){
+            this.$http.get("/xpi/cartitem",{params:{courseId:45,userId:1}}).then((res)=>{
+      console.log(res)
+      this.booklest=res.data.data;
+      console.log(res.data.data)
+    })
+      },
+    // 计算总金额
+    caculate(aa,id){
+      console.log(this.lookback)
+      if(aa==false){
+          this.totalNumber+=this.lookback[id].coursePrice;
+          this.ischecked=!this.ischecked;
+          
+      }else{
+        aa==true
+         this.totalNumber-=this.lookback[id].coursePrice;
+         this.ischecked=!this.ischecked;
       }
-    }
+          console.log(aa)
+          console.log(id);
+          console.log(this.totalNumber);
+        },
+    cauSum:function(){
+            if(this.sumPrice === 0){
+                Toast('您还没有选择宝贝哦');
+            }else{
+                this.$router.push('/cart/order')
+            }
+        },
   }
 };
 </script>

@@ -19,6 +19,22 @@ module.exports = {
                     '^/api': 'http://192.168.31.236:8080'
                 }
             },
+            '/upi': {
+                target: 'http://192.168.31.134:8090', // 接口域名
+                // secure: false, // 如果是https接口，需要配置这个参数
+                changeOrigin: true, //是否跨域
+                pathRewrite: { //需要rewrite的
+                    '^/upi': 'http://192.168.31.134:8090'
+                }
+            },
+            '/xpi': {
+                target: 'http://192.168.31.86:8080', // 接口域名
+                // secure: false, // 如果是https接口，需要配置这个参数
+                changeOrigin: true, //是否跨域
+                pathRewrite: { //需要rewrite的
+                    '^/upi': 'http://192.168.31.86:8080'
+                }
+            },
         },
 
         // Various Dev Server settings

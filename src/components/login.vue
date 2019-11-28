@@ -25,7 +25,7 @@
           </div>
           <div v-if="n==2" class="twomenu">
             <div class="why1">
-              <input type="text" v-model="userid" placeholder="请输入用户名" />
+              <input type="text" v-model="emailyan" placeholder="请输入用户名/邮箱" />
             </div>
             <div class="why1">
               <input type="password" v-model="userpassword" placeholder="请输入登录密码" />
@@ -37,9 +37,9 @@
         </div>
       </el-tab-pane>
       <el-tab-pane label="注册" name="second">
-         <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-          <el-form-item label="邮箱">
-            <el-input type="email" v-model="emailyan"></el-input>
+         <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">         
+          <el-form-item label="用户名">
+            <el-input type="text" v-model="userid"></el-input>
           </el-form-item>
           <el-form-item label="密码" prop="pass">
             <el-input type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
@@ -47,11 +47,15 @@
           <el-form-item label="确认密码" prop="checkPass">
             <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
           </el-form-item>
-          <el-form-item label="验证码" prop="age">
-            <el-input v-model="yanzheng"></el-input>
+           <el-form-item label="邮箱">
+            <el-input type="email" v-model="emailyan"></el-input>
+            <el-button class="inputbutton" @click="getyanzheng()">获取验证码</el-button>
+          </el-form-item>
+           <el-form-item label="验证码" prop="yanzheng">
+            <el-input v-model="ruleForm.yanzheng"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="submitForm('ruleForm')" class="denglu">注册</el-button>
+            <el-button type="primary" @click="getregister()" class="denglu">注册</el-button>
             <el-button @click="resetForm('ruleForm')" class="denglu">重置</el-button>
           </el-form-item>
         </el-form>
@@ -65,18 +69,7 @@
 <script>
 export default {
   data() {
-    var checkAge = (rule, value, callback) => {
-        if (!value) {
-          return callback(new Error('验证码不能为空'));
-        }
-        setTimeout(() => {
-          if (!Number.isInteger(value)) {
-            callback(new Error('请输入正确的验证码'));
-          } else {         
-              callback();           
-          }
-        }, 1000);
-      };
+   
       var validatePass = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请输入密码'));
@@ -100,7 +93,7 @@ export default {
         ruleForm: {
           pass: '',
           checkPass: '',
-          age: ''
+          yanzheng:''
         },
         rules: {
           pass: [
@@ -109,8 +102,9 @@ export default {
           checkPass: [
             { validator: validatePass2, trigger: 'blur' }
           ],
-          age: [
-            { validator: checkAge, trigger: 'blur' }
+          yanzheng: [
+             { required: true, message: '不能为空', trigger: 'blur' },
+            { min: 3, max: 7, message: '长度在 3 到 7 个字符', trigger: 'blur' }
           ]
         },
       class1: "choose CActive",
@@ -120,22 +114,12 @@ export default {
       see: false,
       emailyan: "",
       yanzheng: "",
-      userid: "",
+      userid: 0,
       userpassword: "",
-      activeName: "second"
+      activeName: "first"
     };
   },
   methods: {
-    submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            alert('submit!');
-          } else {
-            console.log('error submit!!');
-            return false;
-          }
-        });
-      },
       resetForm(formName) {
         this.$refs[formName].resetFields();
       },
@@ -143,9 +127,7 @@ export default {
       console.log(tab, event);
     },
     getyanzheng() {
-      // this.$router.push("/index")
-      this.$http
-        .get("/api/sendMail", {
+      this.$http.get("/api/sendMail", {
           params: {
             email: this.emailyan
           }
@@ -162,10 +144,10 @@ export default {
             yan: this.yanzheng
           }
         })
-        .then(res => {
-          console.log(res);
+        .then(res => {        
           if (res.data) {
-            this.$router.push("/index");
+            this.$router.push("/index?id="+res.data);
+            console.log(res.data);
           } else {
             if (res.config.params.email == "" || res.config.params.yan == "") {
               this.$alert(
@@ -197,19 +179,18 @@ export default {
       this.$http
         .get("/api/login1", {
           params: {
-            user_id: this.userid,
+            email: this.emailyan,
             user_password: this.userpassword
           }
         })
         .then(res => {
           console.log(res);
-          if (res.data) {
-            this.$router.push("/index");
+          if (res.status==200) {
+              this.$router.push("/index?id="+res.data);
+            console.log(res.data)
           } else {
-            if (
-              res.config.params.user_id == "" ||
-              res.config.params.user_password == ""
-            ) {
+            if (this.emailyan == "" ||
+              this.userpassword == "") {
               this.$alert(
                 `
                         <div class="login_tan">
@@ -235,7 +216,20 @@ export default {
           }
         });
     },
-
+    getregister() {
+      let datalist=new FormData()
+      this.$http.post("/api/zhuce", {       
+           "user_email": this.emailyan,
+           "user_id":0,
+            'user_password':this.ruleForm.pass,
+            "user_role":1,
+            "yan":this.ruleForm.yanzheng                
+      })
+        // console.log()
+        .then(res => {
+          console.log(res);
+        });
+    },
     //     open() {
 
     //   },
@@ -247,6 +241,10 @@ export default {
 </script>
 
 <style>
+.inputbutton{
+  width: 100%;
+  margin-top: 10px;
+}
 .demo-ruleForm{
   padding-right: 10px;
 }

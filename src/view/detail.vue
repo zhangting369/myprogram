@@ -13,19 +13,16 @@
         <div class="el-icon-arrow-right"></div>
         <div>【寒假目标985班】高一化学直播班（旧教材必修2）</div>
       </div>
-      <div class="detail">
+      <div class="detail" :data="detaillist">
         <div class="xiangqing">
           <div class="detail_se">
             <div class="detail_words">
-              <span class="course">化学</span>
-              <span class="goal">【寒假目标985班】高一化学直播班（旧教材必修2）</span>
+              <span class="course">{{detaillist.course_subject}}</span>
+              <span class="goal">{{detaillist.course_name}}</span>
             </div>
-            <p class="detail_info">一期：1月17日-1月23日每天07:30-09:45</p>
+            <p class="detail_info">一期：{{detaillist.course_time}}——{{detaillist.course_date}}&nbsp;&nbsp;&nbsp;&nbsp;每天07:30-09:45</p>
             <p class="detail_info">
-              难度：
-              <img src="../assets/star.png" alt />
-              <img src="../assets/star.png" alt />
-              <img src="../assets/star.png" alt />
+              难度:&nbsp;&nbsp;&nbsp;&nbsp;{{detaillist.course_difficulty}}
             </p>
             <p class="detail_info">诺贝尔奖教授参与研发</p>
             <div class="teachers">
@@ -82,8 +79,8 @@
         <div class="price">
           <div class="detail-right_price">
             ￥
-            <span>700</span>
-            <p>剩余11个名额</p>
+            <span>{{detaillist.course_price}}</span>
+            <p>剩余{{detaillist.course_number}}个名额</p>
           </div>
           <div class="detail-right_item">
             <img src="../assets/price1.png" alt />
@@ -106,13 +103,15 @@
             服务
             <span>直播授课 / 随时退款 /随时看回放/</span>
             <i class="el-icon-arrow-down"></i>
+            <!-- <span>{{courseid}}</span> -->
+            <!-- <span>{{userid}}</span> -->
           </div>
           <div class="detail-right_item">
             <template>
-              <el-button type="text" class="detail-right_btn btn1" @click="open">加入购物车</el-button>
+              <el-button type="text" class="detail-right_btn btn1" @click="addgoodsche()">加入购物车</el-button>
             </template> 
             <template class="btn_secc">
-              <el-button type="text" class="detail-right_btn btn2" @click="open">立即报名</el-button>
+              <el-button type="text" class="detail-right_btn btn2">立即报名</el-button>
             </template>
           </div>
         </div>
@@ -126,94 +125,9 @@
 import hearderindex from "../components/hearder_index";
 import footerindex from "../components/footer_index";
 export default {
-  components: {
+   components: {
     hearderindex,
     footerindex
-  },
-  methods: {
-    getscroll() {
-      console.log(body.onscroll());
-      console.log(111);
-    },
-    open() {
-      this.$alert(
-        `
-      <div class="detail_alert">
-        <div class="alert_title">已报课程</div>
-        <div class="alert_content">
-          <div class="detail_se alert_se">
-            <div class="detail_words">
-              <span class="course">化学</span>
-              <span class="goal">【寒假目标985班】高一化学直播班（旧教材必修2）</span>
-              <span class="alert_price">￥700</span>
-            </div>
-            <p class="detail_info">一期：1月17日-1月23日每天07:30-09:45</p>
-            <p class="detail_info">
-              难度：
-              <img src="../assets/star.png" alt />
-              <img src="../assets/star.png" alt />
-              <img src="../assets/star.png" alt />
-            </p>
-            <div class="teachers alert_teacher">
-              <div class="teacher">
-                <div class="teacher_pict"></div>
-                <div class="teacher_words">
-                  <p>授课</p>
-                  <p>杨芳</p>
-                </div>
-              </div>
-              <div class="teacher teacher1">
-                <div class="teacher_pict teacher1_pict"></div>
-                <div class="teacher_words">
-                  <p>辅导</p>
-                  <p>网校辅导</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="detail_alert">
-        <div class="alert_title">已报课程</div>
-        <div class="alert_content">
-          <div class="detail_se alert_se">
-            <div class="detail_words">
-              <span class="course">化学</span>
-              <span class="goal">【寒假目标985班】高一化学直播班（旧教材必修2）</span>
-              <span class="alert_price">￥700</span>
-            </div>
-            <p class="detail_info">一期：1月17日-1月23日每天07:30-09:45</p>
-            <p class="detail_info">
-              难度：
-              <img src="../assets/star.png" alt />
-              <img src="../assets/star.png" alt />
-              <img src="../assets/star.png" alt />
-            </p>
-            <div class="teachers alert_teacher">
-              <div class="teacher">
-                <div class="teacher_pict"></div>
-                <div class="teacher_words">
-                  <p>授课</p>
-                  <p>杨芳</p>
-                </div>
-              </div>
-              <div class="teacher teacher1">
-                <div class="teacher_pict teacher1_pict"></div>
-                <div class="teacher_words">
-                  <p>辅导</p>
-                  <p>网校辅导</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>    
-        `,
-        {
-          dangerouslyUseHTMLString: true
-        }
-      );
-    }
   },
   data() {
     return {
@@ -233,8 +147,30 @@ export default {
           name: "离子键和共价键▪知识预习",
           address: "01月19日 周日 07:30 - 09:45"
         }
-      ]
-    };
+      ],
+      detaillist:[],
+       course_id:"",
+       uid:""
+    }
+  },
+  mounted(){
+      this.course_id=this.$route.query.course_id;
+      this.uid=this.$route.query.id;
+       this.$http.get("/api/findByUid11?course_id="+this.course_id).then(res=>{
+      console.log(res.data)
+      this.detaillist=res.data;
+      console.log(this.course_id)
+    })
+  },
+  methods:{
+    addgoodsche(){
+      this.$http.post("/xpi/cartitem",{
+        courseId:this.course_id,
+        userId:this.uid
+      }).then(res=>{
+        console.log(res)
+      })
+    }
   }
 };
 </script>

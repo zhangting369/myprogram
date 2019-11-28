@@ -1,6 +1,6 @@
 <template>
   <div>
-      <h1>我是about组件</h1>
+      <h1>我是头部组件</h1>
       <h2><font color="red">{{num}}</font></h2>
   </div>
 </template>
@@ -20,5 +20,9 @@ export default {
 </script>
 
 <style>
-
+h1{
+    width: 100%;
+    height: 40px;
+    background: blue
+}
 </style>
